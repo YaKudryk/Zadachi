@@ -1,0 +1,14 @@
+import Foundation
+let str = "Madam, I'm Adam"
+
+
+func StrRewerse(_ instring:String) -> String {
+    var sorted:String
+                      sorted = String(instring.reversed())
+    return sorted
+}
+
+print("2 Before")
+print(str)
+print("2 After")
+print(StrRewerse(str))
