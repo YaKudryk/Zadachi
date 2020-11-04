@@ -1,0 +1,18 @@
+import Foundation
+
+
+func greet(age: Int) -> String 
+    switch age {
+      case 0...10: return  "Baby"
+      case 11...15: return  "Teenager"
+      case 16...25: return  "Joung"
+      case 26...55: return  "Adult "
+      case 56...120: return "Old"
+   default:
+     return  "Dead"
+    } 
+    
+}  
+print(greet(age:15))
+print(greet(age:185))
+print(greet(age:115))
