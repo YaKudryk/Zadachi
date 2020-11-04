@@ -1,0 +1,28 @@
+import Foundation
+var someInts : [Int]?=[]
+for count in 0...20 {
+    someInts?.append(Int.random(in: 0...100))
+}
+
+
+func SortArray(intArray: [Int]?, accesing:Bool) -> [Int]? {
+    var sorted:[Int]=[]
+
+    guard !(intArray == nil) else {return nil}
+    guard !(intArray!.isEmpty) else {return []}
+    sorted = intArray!.sorted()
+    if !(accesing) {
+            sorted = sorted.reversed()
+        }
+        
+
+    return sorted
+}
+
+
+print("Unsorted")
+print(someInts)
+print("Sorted accesing")
+print(SortArray(intArray:someInts, accesing:true ))
+print("Sorted deccesing")
+print( SortArray(intArray:someInts, accesing:false ))
