@@ -1,0 +1,27 @@
+import Foundation
+var someInts : [Int]=[]
+for count in 0...20 {
+    someInts.append(Int.random(in: 0...100))
+}
+
+
+func unic(intarray: [Int]) -> [Int] {
+    var sorted:[Int]=[]    
+             for element in intarray {
+                    if !sorted.contains(element) {
+                      sorted.append(element)
+                    }
+                }
+    
+    return sorted
+}
+func unic2(intarray: [Int]) -> [Int] {
+    let set = Set(intarray)
+    return Array(set)
+  }
+
+print("Unsorted")
+print(someInts)
+print("Remove duplicates")
+print(unic(intarray:someInts))
+print(unic2(intarray:someInts))
