@@ -1,0 +1,32 @@
+import Foundation
+let sity: Set<String> = ["Kiev", "Warshawa", "New York", "Big Wasuki" ,"London", "Moskow"]
+var someDictArray : [[String: String]]=[]
+var someAirDict = [String: String]()
+for airports in 0...20 {
+    for airlines in 0...1 {
+        someAirDict[sity.randomElement()!]=sity.randomElement()
+    }
+  someDictArray.append(someAirDict)
+    
+}
+
+var underAtack:String = sity.randomElement()!
+
+func nuclearBomb(key:String, airWay:[[String: String]] ) -> [[String: String]] {
+    var sorted:[[String: String]] = airWay   
+             for dict in sorted {
+                    if (dict[key] != nil) {
+                      sorted.remove(at:  sorted.firstIndex(of: dict)!) 
+                    }
+                }
+    
+    return sorted
+}
+
+
+
+
+print("Unsorted")
+print(someDictArray)
+print(underAtack+" under atack")
+print(nuclearBomb(key:underAtack, airWay:someDictArray ) )
