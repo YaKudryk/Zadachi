@@ -2,13 +2,13 @@ import Foundation
 let str = "Madam, I'm Adam"
 
 
-func StrRewerse(_ instring:String) -> String {
+func StrRewerse(_ instring:String) -> String { // між двокрапкою та назвою типа йде 1 пробіл; назва функції з малої літери
     var sorted:String
-                      sorted = String(instring.reversed())
+                      sorted = String(instring.reversed()) // в тебе ось цей рядок виконує головну роль. Інші рядки можна викинути, скоротивши метод
     return sorted
 }
 
-print("2 Before")
+print("2 Before") // ОК
 print(str)
 print("2 After")
 print(StrRewerse(str))

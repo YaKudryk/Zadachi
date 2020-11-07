@@ -1,7 +1,7 @@
 import Foundation
 
 
-func greet(age: Int) -> String 
+func greet(age: Int) -> String // запускається з помилкою, не працює
     switch age {
       case 0...10: return  "Baby"
       case 11...15: return  "Teenager"

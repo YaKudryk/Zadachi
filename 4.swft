@@ -1,12 +1,12 @@
 import Foundation
-let sity: Set<String> = ["Kiev", "Warshawa", "New York", "Big Wasuki" ,"London", "Moskow"]
+let sity: Set<String> = ["Kiev", "Warshawa", "New York", "Big Wasuki" ,"London", "Moskow"] // на майбутнє, "місто" = "city"
 var someDictArray : [[String: String]]=[]
 var someAirDict = [String: String]()
 for airports in 0...20 {
     for airlines in 0...1 {
         someAirDict[sity.randomElement()!]=sity.randomElement()
     }
-  someDictArray.append(someAirDict)
+  someDictArray.append(someAirDict) //пропустив очищення someAirDict, тож той напрямок що є в першому масиві буде і в решті. Не думаю що це так задумувалось
     
 }
 
@@ -14,9 +14,9 @@ var underAtack:String = sity.randomElement()!
 
 func nuclearBomb(key:String, airWay:[[String: String]] ) -> [[String: String]] {
     var sorted:[[String: String]] = airWay   
-             for dict in sorted {
+             for dict in sorted { // чому тут в тебе відступи у порівнянні з рядком var? його не повинно бути, адже це два послідовні рядки однієї функції
                     if (dict[key] != nil) {
-                      sorted.remove(at:  sorted.firstIndex(of: dict)!) 
+                      sorted.remove(at:  sorted.firstIndex(of: dict)!)  // форс анрап (окличний знак в кінці) - дуже небажана штука, спробуй переписати так, щоб його в твоєму коді взагалі не було
                     }
                 }
     
