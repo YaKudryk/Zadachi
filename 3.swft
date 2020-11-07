@@ -1,27 +1,19 @@
 import Foundation
-var someInts : [Int]=[] 
-for count in 0...20 { // можна оптимізувати генерацію, щоб менше місця займало
-    someInts.append(Int.random(in: 0...100))
-} 
+let arraySize = 20
+let maxInt = 100
+var someInts: [Int] = Array(repeating: 0, count: arraySize)
+                           .compactMap{Int.random(in: $0...maxInt)} 
 
-
-func unic(intarray: [Int]) -> [Int] {
-    var sorted:[Int]=[]    
-             for element in intarray { // якщо на вході великий масив то кожного разу 
-                    if !sorted.contains(element) {
-                      sorted.append(element)
-                    }
-                }
-    
-    return sorted
+func unic(intArray: [Int]) -> [Int] {
+    return Array(Set(intArray)).sorted(by: {(intArray.firstIndex(of: $0) ?? 0) < (intArray.firstIndex(of: $1) ?? 0)})
 }
-func unic2(intarray: [Int]) -> [Int] {
-    let set = Set(intarray) // можна скоротити на один рядок
-    return Array(set)
-  }
+
+func unic2(intArray: [Int]) -> [Int] {
+    return Array(Set(intArray))
+}
 
 print("Unsorted")
 print(someInts)
 print("Remove duplicates")
-print(unic(intarray:someInts))
-print(unic2(intarray:someInts))
+print(unic(intArray:someInts))
+print(unic2(intArray:someInts))

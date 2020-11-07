@@ -1,29 +1,18 @@
 import Foundation
-
-var someInts : [Int]?=[] // генерацію можна трохи оптимальніше робити, одним рядком
-for count in 0...20 {
-    someInts?.append(Int.random(in: 0...100))
+let arraySize = 20
+let maxInt = 100
+var someInts : [Int]? = Array(repeating: 0, count: arraySize) // якщо викликаєш append то система розширяє масив. +20 елементів - 20 разів переписаний масив. Цією функцією ми просто створюємо один масив потрібного розміру
+                              .compactMap{Int.random(in: $0...maxInt)}  // а ось тут ми один раз проходимо по масиву і повертаємо новий масив, ця функція може для оптимізації навіть працювати в багатьох потоках - нам це не важливо, головне - чистий результат
+                    
+func sortArray(_ intArray: [Int]?, accesing: Bool) -> [Int]? { 
+    guard !(intArray?.isEmpty ?? true) else {return intArray} // сумістив перевірки
+    return accesing ? intArray?.sorted(by: <) : intArray?.sorted(by: >) // стис обробку - ти не формуєш масив а потім змінюєш порядок елементів а одразу сортуєш в потрібному порядку
 }
 
 
-func SortArray(intArray: [Int]?, accesing:Bool) -> [Int]? { // усі назви функцій йдуть лише з малої літери. З великої літери починаються виключно типи (об'єкти, абстрактні, структури та енуми)
-    var sorted:[Int]=[] // зайвий рядок
-
-    guard !(intArray == nil) else {return nil}
-    guard !(intArray!.isEmpty) else {return []} // обидві перевірки можна сумістити в одну
-    sorted = intArray!.sorted()
-    if !(accesing) {
-            sorted = sorted.reversed()
-        }
-        
-
-    return sorted 
-}
-
-
-print("Unsorted") // ОК
+print("Unsorted")
 print(someInts)
 print("Sorted accesing")
-print(SortArray(intArray:someInts, accesing:true ))
+print(sortArray(someInts, accesing:true))
 print("Sorted deccesing")
-print( SortArray(intArray:someInts, accesing:false ))
+print(sortArray(someInts, accesing:false))
