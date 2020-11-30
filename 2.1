@@ -1,0 +1,20 @@
+import Foundation
+var names: [String]? = ["Nikol","Sasha","Masha","Katrin"]
+var someInts : [Int]? = []
+for count in 0...20 {
+    someInts?.append(Int.random(in: 0...100))
+}
+
+func firstLastDelete<T>(_ someArray :inout [T]?) { 
+ someArray?.removeFirst()   
+ someArray?.removeLast()
+ someArray = someArray?.reversed()
+}  
+
+
+print(someInts)
+firstLastDelete(&someInts)
+print(someInts)
+print(names)
+firstLastDelete(&names)
+print(names)
