@@ -8,7 +8,7 @@ for count in 0...20 {
 func firstLastDelete<T>(_ someArray :inout [T]?) { 
  someArray?.removeFirst()   
  someArray?.removeLast()
- someArray = someArray?.reversed()
+ someArray?.reverse()
 }  
 
 
