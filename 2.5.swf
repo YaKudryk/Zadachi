@@ -1,0 +1,25 @@
+import Foundation
+var emptyInts : [Int] = []
+var someInts : [Int] = []
+for count in 0...20 {
+    someInts.append(Int.random(in: 0...100))
+}
+
+func maxMinSwap(_ inputArray : [Int])-> [Int] { 
+ var someArray = inputArray
+if (someArray.count > 0){ 
+ if let max  = someArray.max(){
+    if let min  = someArray.min(){
+          someArray.swapAt( someArray.firstIndex(of: max) ?? 1, someArray.firstIndex(of: min) ?? 1)
+  }
+ }
+}
+ return someArray
+}  
+
+
+print(someInts)
+print(maxMinSwap(someInts))
+
+print(emptyInts)
+print(maxMinSwap(emptyInts))
