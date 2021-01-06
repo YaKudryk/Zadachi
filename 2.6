@@ -1,0 +1,29 @@
+//6. Написати функцію що прийматиме масив чисел. Відсортувати елементи в масиві таким чином: 
+// якщо число парне - ставити на парне місце, якщо ні - на непарне.
+
+import Foundation
+var emptyInts : [Int] = []
+var someInts : [Int] = []
+for count in 0...20 {
+    someInts.append(Int.random(in: 0...100))
+}
+
+func oddEven(_ inputArray : [Int])-> [Int?] { 
+ let oddArray = inputArray.filter { $0 % 2 == 1 }
+ let evenArray = inputArray.filter { $0 % 2 == 0 }   
+ var outArray: [Int?] = []
+ var maxCount : Int = (oddArray.count > evenArray.count ? oddArray.count : evenArray.count)
+ if maxCount > 0 {
+ for i in 1...maxCount {
+        outArray.append((i > oddArray.count ? nil : oddArray[i-1]))
+        outArray.append((i > evenArray.count ? nil : evenArray[i-1]))
+        }
+    }
+ return outArray
+}  
+
+print(someInts)
+print(oddEven(someInts))
+
+print(emptyInts)
+print(oddEven(emptyInts))
