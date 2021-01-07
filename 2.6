@@ -4,7 +4,7 @@
 import Foundation
 var emptyInts : [Int] = []
 var someInts : [Int] = []
-for count in 0...20 {
+for count in 0...20 { // як писав раніше є швидший і компактніший варіант генерації
     someInts.append(Int.random(in: 0...100))
 }
 
@@ -14,15 +14,15 @@ func oddEven(_ inputArray : [Int])-> [Int?] {
  var outArray: [Int?] = []
  var maxCount : Int = (oddArray.count > evenArray.count ? oddArray.count : evenArray.count)
  if maxCount > 0 {
- for i in 1...maxCount {
+ for i in 1...maxCount { // навіщо так складно? Це слід компактніше зробити
         outArray.append((i > oddArray.count ? nil : oddArray[i-1]))
         outArray.append((i > evenArray.count ? nil : evenArray[i-1]))
         }
     }
  return outArray
 }  
-
-print(someInts)
+// фактично тут йде перевірка. Спробуй уявити складнішу ситуацію що для тесту нам треба проганяти багато варіантів (не лише someInts та emptyInts) а слід кидати пачку масивів і бачити відпрацювання по кожному з них. Можна кожен заганяти так само двома рядками, але ж ти вже розібрався з масивами і їх обробкою...
+print(someInts) 
 print(oddEven(someInts))
 
 print(emptyInts)

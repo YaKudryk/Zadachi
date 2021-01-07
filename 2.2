@@ -2,11 +2,11 @@ import Foundation
 //Написати функцію, яка прийматиме строку і повертатиме строку.
 // В функції треба вхідний рядок сканувати на наявність цифр і заміняти їх на якийсь символ, наприклад “*”
 
-var secureSet: Set<Character> = ["1","2","3","4","5","6","7","8","9","0"]
+var secureSet: Set<Character> = ["1","2","3","4","5","6","7","8","9","0"] // навіщо цей рядок в глобальних змінних? Він же потрібний лише всередині функції, локально?
 
 func secureStr(_ inString :String) -> String { 
-return String(inString.map{secureSet.contains($0) ? "*" : $0})
-}  
+return String(inString.map{secureSet.contains($0) ? "*" : $0}) 
+}  // перевірка ".contains()" працює не тільки на множину (set) а ще й на рядок (string), це трохи спростить сприйняття коду
 
 
 print(secureStr("vcd,mjhbkhg123"))

@@ -1,18 +1,18 @@
 import Foundation
 var emptyInts : [Int] = []
 var someInts : [Int] = []
-for count in 0...20 {
+for count in 0...20 { // див. зауваження до задачі 1.1, рядок 3
     someInts.append(Int.random(in: 0...100))
 }
 
 func maxMinSwap(_ inputArray : [Int])-> [Int] { 
  var someArray = inputArray
-if (someArray.count > 0){ 
- if let max  = someArray.max(){
+if (someArray.count > 0){ // забагато вкладених умов. Спробуй стиснути
+ if let max  = someArray.max(){ // перевірка на існування sндексу теж бажано сюди внести, нащо його по-інакшому розкривати?
     if let min  = someArray.min(){
           someArray.swapAt( someArray.firstIndex(of: max) ?? 1, someArray.firstIndex(of: min) ?? 1)
   }
- }
+ } 
 }
  return someArray
 }  

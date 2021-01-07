@@ -2,22 +2,22 @@
 //(просто до того що перевірки на nil, порожність масиву та подібні - зайві). 
 //Словник у нас буде “журналом оцінок”. Тобто, ключ - ім”я, значення - оцінка. Вирахувати середню оцінку цього журналу.
 import Foundation
-let schoolgirl: Set<String> = ["Lizetta", "Babbetta", "Jorjetta", "Closetta" ,"Fidetta", "Kabeta"]
-var someDictArray : [[String: Int]]=[]
+let schoolgirl: Set<String> = ["Lizetta", "Babbetta", "Jorjetta", "Closetta" ,"Fidetta", "Kabeta"] // нелогічно: змінна школярка (одна) а містить множину
+var someDictArray : [[String: Int]]=[] // дуже заскладно. Може зміни на генерацію про яку писав в Viber 8-го листопада
 var someDict = [String: Int]()
 for journalIndex in 0...10 {
     for listIndex in 0...5 {
         someDict[schoolgirl.randomElement()!] = Int.random(in: 0...12)
-    }
-  someDictArray.append(someDict)
+    } // форсоване розкриття опціональності дуже не бажане. Поправ попередній рядок
+  someDictArray.append(someDict) // та сама помилка що й в задачі 1.4 (рядок 9)
     
 }
 
-func midleRating(_ inputJournal:[[String: Int]] ) -> Double {
+func midleRating(_ inputJournal:[[String: Int]] ) -> Double { // забагато коду, зменш до кількох рядків
     var sum: Double = 0
     var count: Int = 0
-    var list = [String : Int]()
-    var name : String
+    var list = [String : Int]() // змінна не використовується
+    var name : String // змінна не використовується
              for list in inputJournal {
                      for nameRated in list {
                         sum = sum + Double( nameRated.value)
