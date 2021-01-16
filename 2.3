@@ -3,21 +3,20 @@
 //Словник у нас буде “журналом оцінок”. Тобто, ключ - ім”я, значення - оцінка. Вирахувати середню оцінку цього журналу.
 import Foundation
 let schoolPerson: Set<String> = ["Lizetta", "Babbetta", "Jorjetta", "Closetta" ,"Fidetta", "Kabeta"]
+let nillName : String = "Noname"
 var someDictArray : [[String: Int]]=[]
-var someDict = [String: Int]()
+
 for journalIndex in 0...10 {
+   var someDict = [String: Int]() 
     for listIndex in 0...5 {
-        someDict[schoolPerson.randomElement() ?? "Noname"] = Int.random(in: 0...12)
+        someDict[schoolPerson.randomElement() ?? nillName] = Int.random(in: 0...12)
     }
-  someDictArray.append(someDict)
-    
+  someDictArray.append(someDict)   
 }
 
 func midleRating(_ inputJournal:[[String: Int]] ) -> Double {
     var sum: Double = 0
     var count: Int = 0
-    var list = [String : Int]()
-    var name : String
              for list in inputJournal {
                      for nameRated in list {
                         sum = sum + Double( nameRated.value)
