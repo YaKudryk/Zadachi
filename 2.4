@@ -1,0 +1,27 @@
+//4. Створити кортедж “студент”. В ньому має бути ім”я, по-батькові, вік. По-батькові - опціонально. 
+//Створити функцію, що прийматиме масив кортежів. Через switch зробити перевірку: якщо вік студента більше 25 і є 
+// побатькові - виводить рядок з вітанням до нього і зверненням на “Ви”. Якщо по-батькові відсутнє, а вік менший 25 років 
+//- вітатись з ним просто. Першу літеру імені писати з маленької літери. 
+
+import Foundation
+let nillName : String = "Noname"
+let startAge : Int = 0
+let names: Set<String> = ["Lizun", "Babbun", "Jora", "Fosett" ,"Mutamba", "Hatumba"]
+var student = (name: nillName, faterName: nillName, age: startAge)
+var stuff:[(name: String, faterName: String?, age: Int)] = Array(repeating: student, count: 13).map{(
+     names.randomElement() ?? nillName,  
+     Bool.random() ? names.randomElement() : nil,  
+     Int.random(in: $0.age...120)
+  )
+}
+func hallo(_ people : [(name: String, faterName: String?, age: Int)]) -> Void { 
+    for person in people {
+    switch person.age {
+      case 0..<25: print(  "Hallo  \(person.name.lowercased()) age \(person.age)")
+   default:
+     print( "Hallo Ви \(person.name) \(person.faterName ?? nillName) age \(person.age)")
+    }} 
+}
+
+print(stuff)
+print(hallo(stuff))
