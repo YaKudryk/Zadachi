@@ -1,17 +1,16 @@
 import Foundation
 var emptyInts : [Int] = []
 var someInts : [Int] = []
-for count in 0...20 { // див. зауваження до задачі 1.1, рядок 3
-    someInts.append(Int.random(in: 0...100))
+for count in 0...20 {someInts.append(Int.random(in: 0...100))
 }
 
 func maxMinSwap(_ inputArray : [Int])-> [Int] { 
  var someArray = inputArray
-guard (someArray.count > 1)                         else { return someArray }
-guard let max       = someArray.max()               else { return someArray }
-guard let min       = someArray.min()               else { return someArray }
-guard let maxIndex  = someArray.firstIndex(of: max) else { return someArray }
-guard let minIndex  = someArray.firstIndex(of: min) else { return someArray }
+guard (someArray.count > 1),                        
+     let max       = someArray.max(),              
+     let min       = someArray.min(),               
+     let maxIndex  = someArray.firstIndex(of: max), 
+     let minIndex  = someArray.firstIndex(of: min) else { return someArray }
 someArray.swapAt(maxIndex, minIndex)
 return someArray
 }  
