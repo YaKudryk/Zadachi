@@ -7,14 +7,15 @@ import Foundation
 let nillName : String = "Noname"
 let startAge : Int = 0
 let names: Set<String> = ["Lizun", "Babbun", "Jora", "Fosett" ,"Mutamba", "Hatumba"]
-var student = (name: nillName, faterName: nillName, age: startAge)
-var stuff:[(name: String, faterName: String?, age: Int)] = Array(repeating: student, count: 13).map{(
+typealias Student = (name: String, faterName: String?, age: Int)
+var student = (name: nillName, faterName: nillName, age: startAge) 
+var stuff:[Student] = Array(repeating: student, count: 13).map{(
      names.randomElement() ?? nillName,  
      Bool.random() ? names.randomElement() : nil,  
      Int.random(in: $0.age...120)
   )
 }
-func hallo(_ people : [(name: String, faterName: String?, age: Int)]) -> Void { 
+func hallo(_ people : [Student]) -> Void { 
     for person in people {
     switch person.age {
       case 0..<25: print(  "Hallo  \(person.name.lowercased()) age \(person.age)")
