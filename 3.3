@@ -1,0 +1,9 @@
+//3. Написати функцію, яка приймає два масива чисел. Треба повернути масив, елементи якого зустрічаються в обох масивах.
+import Foundation
+var testArray1:[Int] = Array((1...20))
+var testArray2:[Int] = Array((10...40))
+
+func arrayIntersection(_ inArray1: [Int], _ inArray2: [Int] ) -> [Int] {
+    return Array(Set(inArray1).intersection(Set(inArray2)))
+}
+print(arrayIntersection(testArray1, testArray2 ))
