@@ -1,0 +1,42 @@
+import Foundation
+//4. Створити перерахування для дужок (“[“, “]”, “{“ і т.д.) 
+//Написати функцію яка приймає рядок і повертає Bool
+//Функція має сканувати рядок на наявність парних дужок. Якщо так - повертати правду, ні - false.
+//------------------------------------------------------------------
+//Скоріш за все функція має перевіряти не лише парність 
+//але і вірну вкладеність дужок, тобто "( [ ) ]" мав би видавати теж false
+
+enum Open: Character, CaseIterable { 
+    case standart = "(" 
+    case sqare = "[" 
+    case figure = "{"
+    }
+enum Close: Character, CaseIterable { 
+    case standart = ")" 
+    case sqare = "]" 
+    case figure = "}"
+    }
+
+func IsStrValid(_ inStr: String) -> Bool {
+    var isEnd = false 
+    let sOpen: [Character] = Open.allCases.map{$0.rawValue}
+    let sClose: [Character] = Close.allCases.map{$0.rawValue}
+    var filteredString :String = inStr.filter{Set(sOpen + sClose).contains($0)} 
+    print(filteredString)
+    while !isEnd {
+         isEnd = true
+       for (index, value) in filteredString.enumerated() { 
+          if index<(filteredString.count-1) {
+                if sOpen.firstIndex(of:Array(filteredString)[index]) == sClose.firstIndex(of:Array(filteredString)[index+1] ) {
+                  filteredString.remove(at: filteredString.index( filteredString.startIndex, offsetBy:index))  
+                   filteredString.remove(at: filteredString.index( filteredString.startIndex, offsetBy:index))  
+                  isEnd = false
+                  break  
+                }             
+            }            
+       }   
+    }
+    return (filteredString.count == 0)
+}
+print(IsStrValid("(ghj [hjk] mmj-4)"))
+print(IsStrValid("(ghj {[hjk] mmj-4)}"))
