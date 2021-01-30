@@ -1,0 +1,14 @@
+import Foundation
+//2. Написати функцію, що буде приймати масив, а також число N і приймає оператор 
+//(менше, більше або дорівнює) і повертає відфільтрований масив. Наприклад, якщо 
+//передати число 3 і оператор “=” то видаляти всі елементи які зустрічаються рівно 3 рази.
+var testArray:[Int] = Array((1...20)) + [21, 21, 21] + [22,22]
+
+func SortArray(inArray : [Int], n : Int, _ fun:((Int, Int) -> Bool)) -> [Int] {
+    let CalcCount = NSCountedSet(array: inArray)
+    return inArray.filter {!fun(CalcCount.count(for: $0),n) }
+}
+
+
+print(SortArray(inArray : testArray, n : 2, < ))
+print(SortArray(inArray : testArray, n : 3, == ))
