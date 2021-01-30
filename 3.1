@@ -1,0 +1,14 @@
+import Foundation
+let testString = """
+ 1. Функція, яка приймає рядок, а повертатиме словник, 
+ в якому ключами будуть окремі слова з цього рядка, 
+ а значення - кількість їх повторів у реченні
+"""
+
+func StrToDictWordCount(_ inStr : String) -> [String : Int] {
+let filteredString  = inStr.lowercased.filter{$0.isLetter || $0.isWhitespace}.split{$0 == " "}
+                      .reduce(into: [:]) { counts, word in counts[String(word), default: 0] += 1 }
+return filteredString   
+}
+
+print(StrToDictWordCount(testString))
