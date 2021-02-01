@@ -1,0 +1,29 @@
+import Foundation
+//2. Послідовність Фібоначчі визначається наступною рекурсивною формулою:
+//F(0) = 0
+//F(1) = 1
+//F(N) = F(N-1) + F(N-2) if N>=2
+//Написати функцію
+//public func solution(_ N : Int) -> Int
+//що за заданим позитивним числом N повертає шість останніх цифр десяткового числа F(N)
+//Для прикладу, дано N = 8, функція має повернути 21, так само N = 36 - повертає 930 352 (бо повне число 14 930 352 )
+//Припустити що: N - ціле в діапазоні 0… 2 147 483 647
+
+let mask : Int64 = 1000000
+func solution(_ N : Int) -> Int { 
+    guard N != 0 else {return 0; } 
+    guard (N != 1) else {return 1;} 
+    var fibon : Int64 = 1 
+    var fibonOld : Int64 = 0 
+    var fibonTmp : Int64 = 0 
+    for i in 2...N { 
+        fibonTmp = fibon
+        fibon = (fibon + fibonOld) % mask 
+        fibonOld = fibonTmp 
+        }
+    return Int(fibon)}
+
+print(solution(0))
+print(solution(1))
+print(solution(8))
+print(solution(36))
