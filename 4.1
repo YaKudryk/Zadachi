@@ -3,6 +3,7 @@ import Foundation
 //(якщо воно менше аніж шестизначне - то просто число, якщо більше - то лише останні цифри)
 let mask = 1000000
 func LastSixOfFactorial(_ n: Int) -> Int { 
+ guard n>0 else {return 0}   
 var fact : Int64 = 1 
 for i in 1...n { 
 fact = (fact * Int64(i % mask)) % Int64(mask) }
