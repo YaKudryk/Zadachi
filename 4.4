@@ -1,0 +1,29 @@
+import Foundation
+//4. Непорожній масив А містить N цілих. Пара цілих (Р, В) називаються К-комплементарними 
+//в масиві А if 0<= P, B <N та А(Р) + А(В) = К
+//Написати функцію
+//public func solution(_ K : Int, _ A : inout [Int]) -> Int
+//Яка б за даним цілим К та непорожнім масивом А повертала кількість К-комплементарних пар в масиві А.
+
+
+
+var intAr1:[Int] = [1,1,1]
+var intAr2:[Int] = [1,1,-2]
+var intAr3:[Int] = [22,1,2]
+ 
+ func solution(_ k : Int, _ a : inout [Int]) -> Int {
+ var inArray = a    
+ var count:Int = 0
+ for index in inArray {     
+    count += inArray.filter({$0 == (k - inArray[0])}).count
+    inArray.removeFirst() 
+    }    
+  return count
+ }
+
+//--------------------------------------------------------------------------------------------------
+// За умовою, враховується також і  комплементарність із самим собою. Якщо ж цього не потрібно, 
+// поміняти місцями стр 18 і 19 і трошки модифікувати їх
+print(solution(2, &intAr1))
+print(solution(3, &intAr2))
+print(solution(23, &intAr3))
