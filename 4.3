@@ -1,0 +1,31 @@
+import Foundation
+//3. Дано непорожній масив з N цілих елементів. Кожен елемент розглядається як відносний вказівник на наступний елемент масиву. 
+//Тобто, якщо А(К) = М тоді елемент А(К) вказує на елемент А(К+М).
+//Масив визначає послідовність стрибків пішака: 
+//Починає йти з клітинки А(0);
+//Кожен крок пішак просувається від елементу А(К) до наступного, на який вказує елемент А(К)
+//Пішак може стрибати вічно або вискочити за межі масиву
+//Написати функцію, 
+//public func solution(_ A : inout [Int]] -> Int
+//яка за даним непорожнім масивом А що містить N цілих повертає кількість стрибків 
+//після яких пішак вийде за межі масиву. Якщо цього ніколи не станеться - повернути “-1”
+var intAr1:[Int] = [1,1,1]
+var intAr2:[Int] = [1,1,-2]
+var intAr3:[Int] = [22,1,2]
+ 
+ func solution(_ a : inout [Int]) -> Int {
+ let inArray = a    
+ var indexSet:Set<Int> = []
+ var index:Int = 0
+ while  (!indexSet.contains(index)) {     
+     guard (0...inArray.count-1).contains(index) else { return indexSet.count}
+     indexSet.insert(index)
+     index = index + inArray[index]
+    }    
+  return -1
+ }
+
+
+print(solution(&intAr1))
+print(solution(&intAr2))
+print(solution(&intAr3))
