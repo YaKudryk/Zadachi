@@ -1,0 +1,15 @@
+import Foundation
+//Оскільки в Swift немає логічної команди XOR, хоча є команда побітного XOR для чисел “^”, 
+//то розширити swift, додавши таку команду “^^”. Викликати її слід як 
+//“if true ^^ false { doSomething() }”
+
+infix operator ^^ 
+
+public func ^^ (a: Bool, b:Bool) -> Bool {
+return a != b   
+}
+
+if false ^^ false { print("1") } else {print("0")}
+if true ^^ false  { print("1") } else {print("0")}
+if false ^^ true  { print("1") } else {print("0")}
+if true ^^ true   { print("1") } else {print("0")}
