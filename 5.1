@@ -1,0 +1,23 @@
+import Foundation
+//Написати функцію яка на вхід приймає будь-що, і якщо на вході число - виводить його значення 
+//(при виводі розрізняє цілі і дробові), якщо на вході слова - пише про це і виводить його значення, 
+//в іншому випадку - друкує тип змінної на вході
+
+var g:Int64 = 0
+
+func typePrint(_ n: Any) {  
+
+ switch n {
+    case let someInt as Int:
+        print("an integer value of \(someInt)")
+    case let someDouble as Double:
+        print("a double value of \(someDouble)")
+    case let someString as String:
+        print("a string value of \"\(someString)\"")    
+    default:
+        print(type(of:n))
+    }
+} 
+typePrint("Hello World")
+typePrint(g)
+typePrint(3)
