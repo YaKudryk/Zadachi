@@ -1,0 +1,49 @@
+import Foundation
+//Модифікувати задачу № 1 з блоку 1, так щоб функція або повертала не порожній масив 
+//або кидала помилки (throwable). 
+//Модифікувати її тест - через do-try-catch викликати її і друкувати результат або стан помилки.
+
+var someInts : [Int]?=[]
+for count in 0...20 {
+    someInts?.append(Int.random(in: 0...100))
+}
+enum SortArrayError: Error {
+    case arrayIsNil
+    case arrayIsEmpty
+}
+
+func SortArray(intArray: [Int]?, accesing:Bool) throws  -> [Int] {
+
+    guard let sorted = intArray else {throw SortArrayError.arrayIsNil}
+    guard !(sorted.isEmpty) else {throw SortArrayError.arrayIsEmpty}
+    if !(accesing) { 
+        return  sorted.sorted().reversed()
+        }
+        else
+        {
+         return sorted.sorted()   
+        }
+
+    
+}
+
+//-----------------test-------------------
+
+func TestSortArray(intArray: [Int]?, accesing:Bool){
+    do {print(
+     try SortArray(intArray: intArray, accesing:accesing) )
+   
+    } catch SortArrayError.arrayIsNil {
+        print("Array is nill")
+    } catch SortArrayError.arrayIsEmpty {
+        print("Array is empty")
+    } catch { print("What?") 
+    }
+}
+
+print("Unsorted")
+print(someInts)
+TestSortArray(intArray: someInts, accesing:true)
+TestSortArray(intArray: someInts, accesing:false)
+TestSortArray(intArray: nil, accesing:true)
+TestSortArray(intArray: [], accesing:true)
