@@ -1,0 +1,291 @@
+import Foundation
+//import UIKit
+protocol Power{
+    var voltage: Int {get}
+    var maxAmperage: Int {get}
+    var amperage: Int {get}
+}
+
+protocol ElectroDevice {
+    var description: String {get}
+    var needVoltage: Int {get}
+    var needAmperage: Int {get}
+    var pluged: Bool {get}
+    var isTurnedOn: Bool {get}
+  
+    func turnOn()
+    func turnOff()
+    func setPlug(isConnected: Bool) 
+}
+
+protocol Printer: ElectroDevice{  
+    func printThis(page:String)
+}
+
+protocol Scaner: ElectroDevice{  
+     var scanedPage: String {get}
+    func scanThis(page:String)
+}
+
+protocol MFU: ElectroDevice{  
+    func printThis(page:String)
+     var scanedPage: String {get}
+    func scanThis(page:String)
+    func copyThis(page:String) 
+}
+
+//protocol MFU: ElectroDevice{  
+//   var inPrinter:Printer{get set}
+//   var inScaner:Scaner{get set}
+//}
+
+protocol PowerSupply:Power{
+    
+    var connectedUnits: [ElectroDevice] {get}
+    func connect(unit: ElectroDevice) -> Bool
+}
+
+class PowerSource: PowerSupply {
+    // MARK: Properties
+    private var realConnectedUnits: [ElectroDevice] = []
+    public var connectedUnits: [ElectroDevice] {
+        return realConnectedUnits
+    }
+    
+    private let internalVoltage: Int
+    public var voltage: Int {
+        return internalVoltage
+    }
+    
+    private let internalMaxAmperage: Int 
+        public var  maxAmperage: Int {
+        return internalMaxAmperage
+    }
+    
+    
+    public var amperage: Int {
+        return realConnectedUnits.map({$0.needAmperage}).reduce(0, +)
+    }
+    
+    // MARK: Init and Deinit
+    public init(voltage: Int, maxAmperage: Int) {
+        self.internalVoltage = voltage
+        self.internalMaxAmperage = maxAmperage
+    }
+
+    
+    // MARK: Functions
+    func connect(unit: ElectroDevice) -> Bool {
+        let criticalVoltageInterval = 50
+        if ((abs(unit.needVoltage - internalVoltage) < criticalVoltageInterval) && (internalMaxAmperage>(amperage + unit.needAmperage))) {
+            self.realConnectedUnits.append(unit)
+            unit.setPlug(isConnected: true) 
+             return true
+        } else {
+            print("Connecting error")
+            return false
+        }
+    }
+    func disConnect(unit: ElectroDevice) -> Bool {
+        let criticalVoltageInterval = 50
+        if ((abs(unit.needVoltage - internalVoltage) < criticalVoltageInterval) && (internalMaxAmperage>(amperage + unit.needAmperage))) {
+            self.realConnectedUnits.append(unit)
+            unit.turnOn()
+             return true
+        } else {
+            print("Connecting error")
+            return false
+        }
+    }
+}
+
+class InjectPrinter: Printer{
+
+    private let _description: String = "Printer inject type"
+    public var description: String {
+        return _description
+    }
+    private var _needVoltage: Int 
+    public var needVoltage: Int  {
+        return _needVoltage
+    }
+    private var _needAmperage: Int 
+    public var needAmperage: Int  {
+        return _needAmperage
+    }
+    private var _IsTurnedOn: Bool = false
+    public var isTurnedOn: Bool {
+        return _IsTurnedOn
+    }
+    private var _pluged: Bool = false
+    public var pluged: Bool {
+        return _pluged
+    }
+    // MARK: Init and Deinit
+    public init(voltage: Int, amperage: Int) {
+        self._needVoltage = voltage
+        self._needAmperage = amperage
+        print( _description," inited")
+    }
+
+     public func turnOn() {
+        _IsTurnedOn = _pluged
+        if _IsTurnedOn {
+            print( _description," is turned on")
+        }
+    }
+public func turnOff() {
+        _IsTurnedOn = false
+         print( _description," is turned off")
+    }
+
+    func setPlug(isConnected: Bool) {
+        self._pluged = isConnected
+    }
+    func printThis(page:String) {
+       if (_IsTurnedOn){
+       print(page)
+       }
+    }
+}
+
+class SimplyScaner: Scaner{
+
+    private let _description: String = "Scaner with linear matrix & mechanic mirror moving type"
+    public var description: String {
+        return _description
+    }
+    private var _needVoltage: Int 
+    public var needVoltage: Int  {
+        return _needVoltage
+    }
+    private var _needAmperage: Int 
+    public var needAmperage: Int  {
+        return _needAmperage
+    }
+    private var _IsTurnedOn: Bool = false
+    public var isTurnedOn: Bool {
+        return _IsTurnedOn
+    }
+    private var _pluged: Bool = false
+    public var pluged: Bool {
+        return _pluged
+    }
+    private var _scanedPage: String = ""
+    public var scanedPage: String  {
+        return _scanedPage
+    }
+    
+    // MARK: Init and Deinit
+    public init(voltage: Int, amperage: Int) {
+        self._needVoltage = voltage
+        self._needAmperage = amperage
+        print( _description," inited")
+    }
+
+     public func turnOn() {
+        _IsTurnedOn = _pluged
+        if _IsTurnedOn {
+            print( _description," is turned on")
+        }
+    }
+public func turnOff() {
+        _IsTurnedOn = false
+         print( _description," is turned off")
+    }
+
+    func setPlug(isConnected: Bool) {
+        self._pluged = isConnected
+    }
+    func scanThis(page:String){
+    if (_IsTurnedOn){
+       _scanedPage = page    
+       }    
+    }
+}
+class CopirMFU: MFU{
+
+    private let _description: String = "Multi_Functional Unit with scaner and printer"
+    public var description: String {
+        return _description
+    }
+    private var _needVoltage: Int 
+    public var needVoltage: Int  {
+        return _needVoltage
+    }
+    private var _needAmperage: Int 
+    public var needAmperage: Int  {
+        return _needAmperage
+    }
+    private var _IsTurnedOn: Bool = false
+    public var isTurnedOn: Bool {
+        return _IsTurnedOn
+    }
+    private var _pluged: Bool = false
+    public var pluged: Bool {
+        return _pluged
+    }
+    private var _scanedPage: String = ""
+    public var scanedPage: String  {
+        return _scanedPage
+    }
+    
+    // MARK: Init and Deinit
+    public init(voltage: Int, amperage: Int) {
+        self._needVoltage = voltage
+        self._needAmperage = amperage
+        print( _description," inited")
+    }
+
+     public func turnOn() {
+        _IsTurnedOn = _pluged
+        if _IsTurnedOn {
+            print( _description," is turned on")
+        }
+    }
+public func turnOff() {
+        _IsTurnedOn = false
+         print( _description," is turned off")
+    }
+
+    func setPlug(isConnected: Bool) {
+        self._pluged = isConnected
+    }
+    func scanThis(page:String){
+    if (_IsTurnedOn){
+       _scanedPage = page    
+       }    
+    }
+     func printThis(page:String) {
+       if (_IsTurnedOn){
+       print(page)
+       }
+    }
+     func copyThis(page:String) {
+       if (_IsTurnedOn){
+       scanThis(page:page)
+       printThis(page:_scanedPage)
+       }
+    }
+}
+//-------------------------------------------test-------------------------------
+let supply: PowerSupply = PowerSource(voltage: 220, maxAmperage: 15)
+var canonPrinter: Printer = InjectPrinter(voltage: 250, amperage: 3)
+supply.connect(unit: canonPrinter)
+print("Pluged? ", canonPrinter.pluged )
+canonPrinter.printThis(page:"Test string") //not turnedOn d'not work
+canonPrinter.turnOn()
+canonPrinter.printThis(page:"Test string") 
+var bearpawScaner:Scaner = SimplyScaner(voltage: 250, amperage: 1)
+supply.connect(unit: bearpawScaner)
+bearpawScaner.turnOn()
+bearpawScaner.scanThis(page:"Test scaner page")
+print(bearpawScaner.scanedPage)
+var epsonMFU:MFU = CopirMFU(voltage: 250, amperage: 4)
+supply.connect(unit: epsonMFU)
+epsonMFU.turnOn()
+epsonMFU.scanThis(page:"Test scaner page")
+epsonMFU.printThis(page:"Test printer page")
+epsonMFU.copyThis(page:"Test copir page")
+print(supply.connectedUnits)
+print(supply.amperage)
