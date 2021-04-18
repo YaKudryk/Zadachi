@@ -83,6 +83,12 @@ class TheHouse: House{
      livPersonList.append(myPerson) 
      return true 
     }
+    public func printDogsInHouse(){
+      print( self.adres, "contine a dogs:")   
+      self.livPersonList.map{$0.printDogs()}  
+      print("-----------------------------------------")   
+   }
+
 }
 class Street{
     private let _adres: String
@@ -157,12 +163,8 @@ public func personsToHouses(persent: Int) {
     }  
     }   
 }    
-public func printDogsInHouse(){
-   for number in 0..<houseList.count {  
-     print( houseList[number].adres, "contine a dogs:")   
-     houseList[number].livPersonList.map{$0.printDogs()}  
-      print("-----------------------------------------")   
-   }
+public func printDogsInHouses(){
+   houseList.map{$0.printDogsInHouse()}  
 }
 }
 //---------------------------------------------------
@@ -172,7 +174,7 @@ madStreet.generatePersons(29)
 madStreet.generateHouses(4)
 madStreet.dogToPersons(persent:70)
 madStreet.personsToHouses(persent:90)
-madStreet.printDogsInHouse()
+madStreet.printDogsInHouses()
 //madStreet.printDogs()
 //madStreet.printPersons()
 //madStreet.printHouses()
