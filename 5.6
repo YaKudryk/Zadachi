@@ -1,0 +1,178 @@
+import Foundation
+//Створити об’єкти “собака”, “власник” та “будинок”, створити взаємозв’язки між ними - тобто в будинка є власник чи жильці, 
+//у кожного власника/жильця може бути своя собака. Можуть існувати як бездомні люди з собаками так і одинокі собаки. 
+//Згенерувати вручну масив собак, власників та будинків (можна за допомогою генераторів випадкових чисел), 
+//і задати жильців будинку, яким роздати собак. Створити функцію яка буде обходити масив будинків і формувати звіт - 
+//які собаки в яких будинках мешкають.  
+
+protocol Dog {
+    var regNumber: Int { get }
+    var name: String { get }
+    var breed: String { get }
+    var hasOwner: Bool { get set }
+}
+
+protocol Person {
+     var name: String { get }
+     var socialNumber: Int { get }
+     var dogList: [Dog] { get set }
+     var hasRoom: Bool { get set }
+}
+protocol House {
+    var houseOwner: Person { get set }
+    var adres: String { get }
+}
+
+class TheDog: Dog{
+    private let _regNumber: Int
+    public var regNumber: Int {
+        return _regNumber
+    }
+    private let _name: String
+    public var name: String {
+        return _name
+    }
+    private let _breed: String
+    public var breed: String {
+        return _breed
+    }
+     init(name: String, regNumber: Int, breed: String) {
+        self._name = name
+        self._regNumber = regNumber
+        self._breed = breed
+    }
+  var hasOwner: Bool = false  
+}   
+class ThePerson: Person{
+    private let _name: String
+    public var name: String {
+        return _name
+    }
+    private let _socialNumber: Int
+    public var socialNumber: Int {
+        return _socialNumber
+    }
+ var dogList: [Dog] = []    
+  var hasRoom: Bool = false    
+ init(name: String, socialNumber: Int) {
+        self._name = name
+        self._socialNumber = socialNumber
+    }
+
+func addDog(myDog: TheDog) -> Bool {
+     dogList.append(myDog) 
+     return true 
+    }
+public func printDogs() {
+     dogList.map { print($0.name, $0.regNumber,  $0.breed, $0.hasOwner) }
+    }
+}
+class TheHouse: House{
+    var houseOwner: Person 
+    var livPersonList: [ThePerson] = []
+   
+    private let _adres: String
+    public var adres: String {
+        return _adres
+    }
+    init(adres: String, houseOwner: Person) {
+        self._adres = adres
+        self.houseOwner = houseOwner
+    }
+    func addPerson(myPerson: ThePerson) -> Bool {
+     livPersonList.append(myPerson) 
+     return true 
+    }
+}
+class Street{
+    private let _adres: String
+    public var adres: String {
+        return _adres
+    } 
+    var houseList: [TheHouse] = []
+    var personList: [ThePerson] = []
+    var dogList: [TheDog] = []
+   
+    init(_ adres: String) {
+        self._adres = adres
+    }
+    func addHouse(myHouse: TheHouse) -> Bool {
+     houseList.append(myHouse) 
+     return true 
+    }
+
+    func generateDogs(_ zcount:Int) {
+        var number:Int
+        let dogNames :[String] = ["Starki", "Yammi", "Rafus", "Lupus", "Mi-mi", "Tirex", "Zorg"]
+        let dogBreeds:[String]  = ["Chihuahua", "Boston Terrier", "Boxer", "Briard", "Bulldog", "Chongqing dog", "Kuvasz"]
+      for number in 1...zcount {
+         let newDog = TheDog(name: dogNames[Int.random(in: 0..<dogNames.count)], regNumber:number, breed: dogBreeds[Int.random(in: 0..<dogBreeds.count)])
+          dogList.append(newDog) 
+        }
+   }
+public func printDogs() {
+     dogList.map { print($0.name, $0.regNumber,  $0.breed, $0.hasOwner) }
+    }
+
+public func generatePersons(_ zcount:Int) {
+        var number:Int
+        let personNames :[String] = ["Stark", "Jynni", "Robert", "Lissy", "Mathew", "Tommy", "Larri"]
+       
+      for number in 1...zcount {
+         let newPerson = ThePerson(name: personNames[Int.random(in: 0..<personNames.count)], socialNumber:number)
+          personList.append(newPerson) 
+        }
+   }
+public func printPersons() {
+     personList.map { print($0.name, $0.socialNumber) }
+    }
+
+public func generateHouses(_ zcount:Int) {
+        var number:Int       
+      for number in 1...zcount {
+         let newHouse = TheHouse(adres: self.adres + ", " + String(number), houseOwner: personList[Int.random(in: 0..<personList.count)])
+          houseList.append(newHouse) 
+          if (!(newHouse.houseOwner.hasRoom)){
+           newHouse.houseOwner.hasRoom = true
+           newHouse.livPersonList.append(newHouse.houseOwner as! ThePerson)  
+          }
+        }
+   }
+public func printHouses() {
+     houseList.map { print($0.adres, " Owner:", $0.houseOwner.name," social number:", $0.houseOwner.socialNumber) }
+    }
+public func dogToPersons(persent: Int) {
+    for number in 0..<(dogList.count * persent / 100) {
+    if (!dogList[number].hasOwner){
+      dogList[number].hasOwner = true
+     personList[Int.random(in: 0..<personList.count)].addDog(myDog: dogList[number])   
+    }  
+    }
+}    
+public func personsToHouses(persent: Int) {
+ for number in 0..<(personList.count * persent / 100) {
+    if (!personList[number].hasRoom){
+      personList[number].hasRoom = true
+     houseList[Int.random(in: 0..<houseList.count)].addPerson(myPerson : personList[number])   
+    }  
+    }   
+}    
+public func printDogsInHouse(){
+   for number in 0..<houseList.count {  
+     print( houseList[number].adres, "contine a dogs:")   
+     houseList[number].livPersonList.map{$0.printDogs()}  
+      print("-----------------------------------------")   
+   }
+}
+}
+//---------------------------------------------------
+let madStreet = Street("Madison ave")
+madStreet.generateDogs(23)
+madStreet.generatePersons(29)
+madStreet.generateHouses(4)
+madStreet.dogToPersons(persent:70)
+madStreet.personsToHouses(persent:90)
+madStreet.printDogsInHouse()
+//madStreet.printDogs()
+//madStreet.printPersons()
+//madStreet.printHouses()
