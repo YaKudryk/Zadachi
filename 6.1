@@ -1,0 +1,128 @@
+import Foundation
+//Створити групу об’єктів “материнська плата”, “процесор”, “оперативна пам’ять”, “диск”, “корпус”. 
+//Усі вони можуть мати якісь назви фірм-виробників, або не мати (Китай). Дозволити їх збирати разом в комп’ютер - 
+//тобто в “мат.плату” можна вставити “процесор” та / або “оперативну пам’ять”, а в “корпус” можна вставити 
+//“мат.плату” та/або “диск”. Створити об’єкт “збиральник”, який отримує на вході масив елементів, і з них намагається 
+//зібрати мінімальну кількість комп’ютерів, які передає тестувальнику. 
+//Об’єкт “тестувальник” бере кожен комп’ютер і пропускає далі якщо той працює (містить усі деталі). 
+//Якщо усі деталі від однієї фірми - видає про це, коментуючи фірму.
+
+
+class ComputerPart{
+	let id: Int
+    let name: String
+    let brand: String
+    let needList: [String]
+	var insertedIn: ComputerPart? = nil
+    
+    private var _partList: [ComputerPart]=[] 
+    public var partList: [ComputerPart] {
+        return _partList
+    }
+
+    init(_ name: String,_ id: Int,_ brand: String,_ needList: [String]) {
+        self.name = name
+        self.id = id
+        self.brand = brand
+		self.needList = needList
+    }
+
+     public func printInsertedPatrList(_ pref: String) {
+      print(pref, self.name, self.brand, "id:", self.id)
+     self._partList.map{$0.printInsertedPatrList("-" + pref)}  
+    }  
+
+	 public func addPart(_ myPart: ComputerPart) -> ComputerPart {
+     self._partList.append(myPart) 
+      myPart.insertedIn = self
+      return myPart
+    }
+
+     public func delPart(_ myPart: ComputerPart){
+     _partList = partList.filter { $0.id != myPart.id }
+    }   
+
+    public func findPart(_ name:String) -> [ComputerPart] {
+    return partList.filter { $0.name == name }
+    }    
+}   
+
+class PartStorage : ComputerPart{
+ 
+ func generateParts(_ name:String,_  myNeedList: [String],_ zcount:Int) {
+        var number:Int 
+      for number in 1...zcount {
+         let newPart = ComputerPart(name, self.partList.count, self.needList[Int.random(in: 0..<self.needList.count)], myNeedList)
+          self.addPart(newPart) 
+        }
+   }
+}
+
+class ComputerMaker{
+	public let storageOfParts: PartStorage
+    public let storageOfComputers: PartStorage
+    public let caseName: String
+    init(_ storageOfParts: PartStorage,_ storageOfComputers: PartStorage,_  caseName: String) {
+        self.storageOfParts = storageOfParts
+        self.storageOfComputers = storageOfComputers
+        self.caseName = caseName		
+    }
+    public func constructPart(_ part: ComputerPart)-> Bool{
+        var isok: Bool = true;
+        if !(part.needList.isEmpty){
+         part.needList.map{
+                if !(storageOfParts.findPart($0).isEmpty){                                   
+                    storageOfParts.delPart(part.addPart(storageOfParts.findPart($0)[0])) 
+                } else {
+                 isok = false   
+                }
+            } 
+           isok = isok && part.partList.reduce(true,{ ok, myPart in  ok && constructPart(myPart) })    
+        }
+    return isok;
+    }
+
+    public func work() {
+     var parts = storageOfParts.findPart(caseName)   
+     while !(parts.isEmpty) {         
+         storageOfParts.delPart(storageOfComputers.addPart(parts[0]))
+          print("Computer ", parts[0].brand, "id:", parts[0].id, "Correct =", constructPart(parts[0]))
+          parts[0].printInsertedPatrList(">")
+         parts = storageOfParts.findPart(caseName) 
+       
+        }
+    }  
+}
+
+class ComputerTester : ComputerMaker {
+  override public func constructPart(_ part: ComputerPart)-> Bool{
+        var isok: Bool = true;
+        if !(part.needList.isEmpty){
+         part.needList.map{
+                if (part.findPart($0).isEmpty){
+                    print($0, "not installed")                                    
+                 isok = false   
+                }
+            }   
+        }
+    return isok;
+    }
+}
+
+//---------------------------------------------------
+let inStorage = PartStorage("Storage of computerparts",1, "Computermaking",["Starki", "Yammi", "Rafus", "Lupus", "Mi-mi", "Tirex", "Zorg"])
+let outStorage = PartStorage("Storage of maked computers",2, "Computermaking",[])
+let testedStorage =  PartStorage("Storage of tested computers",3, "Computermaking",[])
+let maker = ComputerMaker(inStorage, outStorage,"case")
+let tester = ComputerMaker( outStorage,testedStorage,"case")
+inStorage.generateParts("case", ["mainboard","power supply","hard disk","dwd-rw"], 8)
+inStorage.generateParts("mainboard", ["video card","memory","processor"], 9)
+inStorage.generateParts("power supply", [], 6)
+inStorage.generateParts("hard disk", [], 5)
+inStorage.generateParts("dwd-rw", [], 7)
+inStorage.generateParts("video card", [], 8)
+inStorage.generateParts("memory", [], 9)
+inStorage.generateParts("processor", [], 6)
+maker.work();
+tester.work();
+//testedStorage.printInsertedPatrList(">")
